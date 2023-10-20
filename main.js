@@ -21,7 +21,7 @@ async function funcaoAsync() {
     let browser;
     try {
         browser = await puppeteer.launch({
-            headless: false,
+            headless: "new",
             args: ['--start-fullscreen']
         });
         const page = await browser.newPage();
