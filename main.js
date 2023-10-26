@@ -6,6 +6,7 @@ const puppeteer = require('puppeteer');
 var resemble = require('resemblejs');
 const fs = require('fs');
 const { pseudoRandomBytes } = require('crypto');
+const { pipeline } = require('stream');
 
 const EMAIL = process.env.EMAIL;
 const SENHA = process.env.SENHA;
@@ -252,18 +253,18 @@ async function funcaoAsync() {
         await browser.close();
 
         /* verificar para enviar a imagem correta */
-        var imagem = fs.readFileSync('malte - Copia.png');
-        var imagem1 = fs.readFileSync('painel - Copia.png');
-        var imagem2 = fs.readFileSync('painel2 - Copia.jpg');
         
         function compara() {
+            var imagem = fs.readFileSync('malte - Copia.png');
+            var imagem1 = fs.readFileSync('painel - Copia.png');
+            var imagem2 = fs.readFileSync('painel2 - Copia.jpg');
             resemble(imagem).compareTo(malte).onComplete(function(data) {
                 console.log(data);
                 if (data.misMatchPercentage < 10) {
                     require('fs').writeFileSync('malte.png', malte);
-                    app.get('/', (req, res) => {
-                        res.send(`<img src="data:image/png;base64,${malte}">`);
-                    });
+                    // app.get('/', (req, res) => {
+                    //     res.send(`<img src="data:image/png;base64,${malte}">`);
+                    // });
                     console.log("ingual malte");
                 } else {
                     console.log("desingual malte");
@@ -271,11 +272,11 @@ async function funcaoAsync() {
             })
             resemble(imagem1).compareTo(painel).onComplete(function(data) {
                 console.log(data);
-                if (data.misMatchPercentage < 30) {
+                if (data.misMatchPercentage > 24) {
                     require('fs').writeFileSync('painel.png', painel);
-                    app.get('/', (req, res) => {
-                        res.send(`<img src="data:image/png;base64,${painel}">`);
-                    });
+                    // app.get('/', (req, res) => {
+                    //     res.send(`<img src="data:image/png;base64,${painel}">`);
+                    // });
                     console.log("ingual painel");
                 } else {
                     console.log("desingual painel");
@@ -285,9 +286,9 @@ async function funcaoAsync() {
                 console.log(data);
                 if (data.misMatchPercentage < 32) {
                     require('fs').writeFileSync('painel2.png', painel2);
-                    app.get('/', (req, res) => {
-                        res.send(`<img src="data:image/png;base64,${painel2}">`);
-                    });
+                    // app.get('/', (req, res) => {
+                    //     res.send(`<img src="data:image/png;base64,${painel2}">`);
+                    // });
                     console.log("ingual painel2");
                 } else {
                     console.log("desingual painel2");
@@ -296,6 +297,10 @@ async function funcaoAsync() {
         }
 
         compara();
+
+        return malte;
+        return painel;
+        return painel2;
 
     } catch (error) {
         console.log('Erro ao executar funcaoAsync: ', error);
@@ -306,13 +311,11 @@ async function funcaoAsync() {
     }
 }
 
-funcaoAsync();
+async function loop() {
+    while (true) {
+        await funcaoAsync();
+        await new Promise(resolve => setTimeout(resolve, 20000));
+    }
+}
 
-// async function loop() {
-//     while (true) {
-//         await funcaoAsync();
-//         await new Promise(resolve => setTimeout(resolve, 20000));
-//     }
-// }
-
-// loop();
+loop();
