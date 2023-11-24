@@ -329,7 +329,7 @@ async function funcaoAsync() {
                 await inputUploadHandle2.uploadFile(fileToUpload2);
             }
         
-            let fileToUpload3 = 'file:///C:/Users/guilh/OneDrive/%C3%81rea%20de%20Trabalho/RFK/rfk-scriptpainel2.png';
+            let fileToUpload3 = 'file:///C:/Users/guilh/OneDrive/%C3%81rea%20de%20Trabalho/RFK/rfk-script/painel2.png';
             if (inputUploadHandle3) {
                 await inputUploadHandle3.uploadFile(fileToUpload3);
             }
@@ -343,13 +343,14 @@ async function funcaoAsync() {
 
             //Verifique os dados no armazenamento local
             const localStorageData = await page.evaluate(() => {
-                let localStorageData = {};
+                // let localStorageData = {};
                 for( let i = 0; i < localStorage.length; i++ ) {
                     const key = localStorage.key(i);
                     localStorageData[key] = localStorage.getItem(key);
                 }
-                return localStorageData;
             });
+
+            return localStorageData;
 
             console.log(localStorageData);
 
