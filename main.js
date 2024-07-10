@@ -18,6 +18,54 @@ app.listen(port, () => {
     console.log(`Servidor em execução em http://localhost:${port}`);
 });
 
+async function selecionaPlanilha(nomePlanilha) {
+    await page.keyboard.press('Alt');
+        await page.waitForTimeout(5000);
+        await page.keyboard.press('c');
+        await page.waitForTimeout(2000);
+        await page.keyboard.press('f');
+        await page.waitForTimeout(2000);
+        await page.keyboard.press('d');
+        await page.waitForTimeout(2000);
+        await page.keyboard.press('g');
+        await page.waitForTimeout(2000)
+        for (let i = 0; i < 30; i++) {
+            await page.keyboard.press('Backspace')
+        }
+        await page.waitForTimeout(2000);
+        await page.keyboard.type(nomePlanilha);
+        await page.waitForTimeout(2000);
+        await page.keyboard.press('Enter');
+        await page.waitForTimeout(2000);
+}
+
+async function zoom(zoom) {
+    await page.waitForTimeout(4000);
+    await page.keyboard.press('Alt');
+    await page.waitForTimeout(2000);
+    await page.keyboard.press('k');
+    await page.waitForTimeout(2000);
+    await page.keyboard.press('b');
+    await page.waitForTimeout(2000);
+    await page.keyboard.press('o');
+    await page.waitForTimeout(4000);
+    await page.keyboard.type(zoom);
+    await page.waitForTimeout(4000);
+    await page.keyboard.press('Enter');
+    await page.waitForTimeout(10000);
+}
+
+async function faixaOpcoes(opcao) {
+    await page.keyboard.press('Alt');
+    await page.waitForTimeout(5000);
+    await page.keyboard.press('z');
+    await page.waitForTimeout(2000);
+    await page.keyboard.press('r');
+    await page.waitForTimeout(2000);
+    await page.keyboard.press(opcao);
+    await page.waitForTimeout(5000);
+}
+
 async function funcaoAsync() {
     let browser;
     let page;
@@ -50,52 +98,17 @@ async function funcaoAsync() {
         await page.keyboard.press('ArrowDown');
         await page.waitForTimeout(10000);
 
-        await page.keyboard.press('Alt');
-        await page.waitForTimeout(5000);
-        await page.keyboard.press('c');
-        await page.waitForTimeout(2000);
-        await page.keyboard.press('f');
-        await page.waitForTimeout(2000);
-        await page.keyboard.press('d');
-        await page.waitForTimeout(2000);
-        await page.keyboard.press('g');
-        await page.waitForTimeout(2000)
-        for (let i = 0; i < 30; i++) {
-            await page.keyboard.press('Backspace')
-        }
-        await page.waitForTimeout(2000);
-        await page.keyboard.type("Painel Malte_Maltose!a1");
-        await page.waitForTimeout(2000);
-        await page.keyboard.press('Enter');
-        await page.waitForTimeout(2000);
+        selecionaPlanilha("Painel Malte_Maltose!a1");
+
         for (let i = 0; i < 9; i++) {
             await page.keyboard.press('ArrowDown');
         }
 
         //Definir zoom
-        await page.waitForTimeout(4000);
-        await page.keyboard.press('Alt');
-        await page.waitForTimeout(2000);
-        await page.keyboard.press('k');
-        await page.waitForTimeout(2000);
-        await page.keyboard.press('b');
-        await page.waitForTimeout(2000);
-        await page.keyboard.press('o');
-        await page.waitForTimeout(4000);
-        await page.keyboard.type('45');
-        await page.waitForTimeout(4000);
-        await page.keyboard.press('Enter');
-        await page.waitForTimeout(10000);
+        zoom('45');
 
         //tirar faixa de opções
-        await page.keyboard.press('Alt');
-        await page.waitForTimeout(5000);
-        await page.keyboard.press('z');
-        await page.waitForTimeout(2000);
-        await page.keyboard.press('r');
-        await page.waitForTimeout(2000);
-        await page.keyboard.press('a');
-        await page.waitForTimeout(5000);
+        faixaOpcoes('a');
 
         const malte = await page.screenshot({ 
             clip: {
@@ -110,55 +123,13 @@ async function funcaoAsync() {
         await page.waitForTimeout(5000);
 
         //selecionar planilha, células a1 e z86
-        await page.keyboard.press('Alt');
-        await page.waitForTimeout(5000);
-        await page.keyboard.press('c');
-        await page.waitForTimeout(2000);
-        await page.keyboard.press('f');
-        await page.waitForTimeout(2000);
-        await page.keyboard.press('d');
-        await page.waitForTimeout(2000);
-        await page.keyboard.press('g');
-        await page.waitForTimeout(2000)
-        for (let i = 0; i < 30; i++) {
-            await page.keyboard.press('Backspace')
-        }
-        await page.waitForTimeout(2000);
-        await page.keyboard.type("Painel!a1");
-        await page.waitForTimeout(2000);
-        await page.keyboard.press('Enter');
-        await page.waitForTimeout(2000);
+        selecionaPlanilha("Painel!a1");
 
-        await page.keyboard.press('Alt');
-        await page.waitForTimeout(2000);
-        await page.keyboard.press('k');
-        await page.waitForTimeout(2000);
-        await page.keyboard.press('b');
-        await page.waitForTimeout(2000);
-        await page.keyboard.press('o');
-        await page.waitForTimeout(2000);
-        await page.keyboard.type('34');
-        await page.waitForTimeout(2000);
-        await page.keyboard.press('Enter');
-        await page.waitForTimeout(5000);
+        zoom('34');
 
         //tirar faixa de opções
-        await page.keyboard.press('Alt');
-        await page.waitForTimeout(5000);
-        await page.keyboard.press('z');
-        await page.waitForTimeout(2000);
-        await page.keyboard.press('r');
-        await page.waitForTimeout(2000);
-        await page.keyboard.press('o');
-        await page.waitForTimeout(5000);
-        await page.keyboard.press('Alt');
-        await page.waitForTimeout(5000);
-        await page.keyboard.press('z');
-        await page.waitForTimeout(2000);
-        await page.keyboard.press('r');
-        await page.waitForTimeout(2000);
-        await page.keyboard.press('a');
-        await page.waitForTimeout(5000);
+        faixaOpcoes('o');
+        faixaOpcoes('a');
 
         const painel2 = await page.screenshot({ 
             clip: {
@@ -173,73 +144,15 @@ async function funcaoAsync() {
         await page.waitForTimeout(5000);
 
         //Definir zoom
-        await page.waitForTimeout(4000);
-        await page.keyboard.press('Alt');
-        await page.waitForTimeout(2000);
-        await page.keyboard.press('k');
-        await page.waitForTimeout(2000);
-        await page.keyboard.press('b');
-        await page.waitForTimeout(2000);
-        await page.keyboard.press('o');
-        await page.waitForTimeout(2000);
-        await page.keyboard.type('50');
-        await page.waitForTimeout(2000);
-        await page.keyboard.press('Enter');
-        await page.waitForTimeout(5000);
-        
-        await page.keyboard.press('Alt');
-        await page.waitForTimeout(5000);
-        await page.keyboard.press('c');
-        await page.waitForTimeout(2000);
-        await page.keyboard.press('f');
-        await page.waitForTimeout(2000);
-        await page.keyboard.press('d');
-        await page.waitForTimeout(2000);
-        await page.keyboard.press('g');
-        await page.waitForTimeout(2000)
-        for (let i = 0; i < 30; i++) {
-            await page.keyboard.press('Backspace')
-        }
-        await page.waitForTimeout(2000);
-        await page.keyboard.type("Painel!z86");
-        await page.waitForTimeout(2000);
-        await page.keyboard.press('Enter');
-        await page.waitForTimeout(2000);
+        zoom('50')
+    
+        selecionaPlanilha("Painel!z86")
         
         //tirar faixa de opções
-        await page.keyboard.press('Alt');
-        await page.waitForTimeout(5000);
-        await page.keyboard.press('z');
-        await page.waitForTimeout(2000);
-        await page.keyboard.press('r');
-        await page.waitForTimeout(2000);
-        await page.keyboard.press('o');
-        await page.waitForTimeout(5000);
-        await page.keyboard.press('Alt');
-        await page.waitForTimeout(5000);
-        await page.keyboard.press('z');
-        await page.waitForTimeout(2000);
-        await page.keyboard.press('r');
-        await page.waitForTimeout(2000);
-        await page.keyboard.press('o');
-        await page.waitForTimeout(5000);
-
-        await page.keyboard.press('Alt');
-        await page.waitForTimeout(5000);
-        await page.keyboard.press('z');
-        await page.waitForTimeout(2000);
-        await page.keyboard.press('r');
-        await page.waitForTimeout(2000);
-        await page.keyboard.press('o');
-        await page.waitForTimeout(5000);
-        await page.keyboard.press('Alt');
-        await page.waitForTimeout(5000);
-        await page.keyboard.press('z');
-        await page.waitForTimeout(2000);
-        await page.keyboard.press('r');
-        await page.waitForTimeout(2000);
-        await page.keyboard.press('a');
-        await page.waitForTimeout(5000);
+        for (let i = 0; i == 4; i++) {
+            faixaOpcoes('o');
+        }
+        faixaOpcoes('a');
         
         const painel = await page.screenshot({ 
             clip: {
